@@ -1,4 +1,6 @@
 import {
+  addNewsDissLikeApi,
+  addNewsLikeApi,
   getLatestNewsApi,
   getNewsCommentApi,
   getNewsWithPaginationApi,
@@ -9,6 +11,7 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { getNewsDetailsApi } from "@/services/api/newsApi";
 import toast from "react-hot-toast";
 import { blogProps } from "@/interfaces/blogComment.interface";
+import { Dispatch, SetStateAction } from "react";
 
 export const useGetLatestNewsApi = (Count: number) => {
   return useQuery({
@@ -69,6 +72,40 @@ export const useAddBlogCommentApi = (reset: () => void) => {
       toast.success("کامنت با موفقیت ثبت شد");
       reset();
       queryClient.invalidateQueries({ queryKey: ["blogsComments"] });
+    },
+  });
+};
+
+export const useAddNewsLikeApi = (
+  setIsLiked: Dispatch<SetStateAction<boolean | undefined>>
+) => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: (CourseId: string) => addNewsLikeApi(CourseId),
+    onSuccess: () => {
+      toast.success("خبری که لایک کردی با موفقیت انجام شد");
+      setIsLiked(true);
+      queryClient.invalidateQueries({
+        queryKey: ["CoursesLike"],
+      });
+    },
+  });
+};
+
+export const useAddNewsDissLikeApi = (
+  setIsLiked: Dispatch<SetStateAction<boolean | undefined>>
+) => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: (CourseId: string) => addNewsDissLikeApi(CourseId),
+    onSuccess: () => {
+      toast.success("خبری که دیسلایک کردی با موفقیت انجام شد");
+      setIsLiked(false);
+      queryClient.invalidateQueries({
+        queryKey: ["CoursesLike"],
+      });
     },
   });
 };

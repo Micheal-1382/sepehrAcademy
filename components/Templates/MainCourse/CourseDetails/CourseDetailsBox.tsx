@@ -14,6 +14,7 @@ import solidHeartIcon from "@/public/icons/solid/heart.svg"
 import MainTooltip from "@/components/Modules/MainTooltip/MainTooltip";
 
 export default function CourseDetailsBox({ title, miniDescribe, imageAddress, cost, isUserFavorite, userFavoriteId }: courseDetailsBoxProps) {
+  
   const router = useRouter()
   const { asPath, query } = router
 

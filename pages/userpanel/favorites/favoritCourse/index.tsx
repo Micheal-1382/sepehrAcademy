@@ -8,7 +8,6 @@ export default function UserFavoritesPage() {
     return (
         <>
             <CourseFavoritesBox />
-            <NewsFavoritesBox />
         </>
     )
 }

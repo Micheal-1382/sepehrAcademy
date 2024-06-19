@@ -34,3 +34,16 @@ export const sendBlogCommentApi = (payload: blogProps) => {
     },
   });
 };
+
+export const addNewsLikeApi = (NewsId: string) => {
+  return httpService.post(
+    baseUrl + `News/NewsLike/${NewsId}`
+  );
+};
+
+export const addNewsDissLikeApi = (NewsId: string) => {
+  return httpService.post(
+    baseUrl +
+      `News/NewsDissLike/${NewsId}`
+  );
+};
