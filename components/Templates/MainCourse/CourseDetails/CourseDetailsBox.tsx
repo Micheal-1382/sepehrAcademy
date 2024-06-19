@@ -15,6 +15,7 @@ import MainTooltip from "@/components/Modules/MainTooltip/MainTooltip";
 import { Spinner } from "@nextui-org/react";
 
 export default function CourseDetailsBox({ title, miniDescribe, imageAddress, cost, isUserFavorite, userFavoriteId }: courseDetailsBoxProps) {
+  
   const router = useRouter()
   const { asPath, query } = router
 

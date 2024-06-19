@@ -15,7 +15,7 @@ export default function App({ Component, pageProps }: AppProps) {
 
   const loginRoutes = ["/login", "/register", "/resetPassword"];
 
-  const panelRoutes = ["/userpanel", "/userpanel/myCourses", "/userpanel/myTikets", "/userpanel/profile", "/userpanel/favorites"]
+  const panelRoutes = ["/userpanel", "/userpanel/myCourses", "/userpanel/myTikets", "/userpanel/profile", "/userpanel/favorites/favoritCourse" , "/userpanel/favorites/favoritNews"]
 
   const queryClient = new QueryClient(queriesOptions);
 
@@ -37,7 +37,7 @@ export default function App({ Component, pageProps }: AppProps) {
               <Toaster
                 position="top-right"
                 toastOptions={{
-                  className: "font-peyda",
+                  className: "font-peyda text-sm !text-primary",
                 }}
               />
             </Layout>

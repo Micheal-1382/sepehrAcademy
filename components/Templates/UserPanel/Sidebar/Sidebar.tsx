@@ -5,7 +5,7 @@ import courses from "@/public/pictures/userPanel/p2.svg";
 import tikets from "@/public/pictures/userPanel/p3.svg";
 import profile from "@/public/pictures/userPanel/p4.svg";
 import exite from "@/public/pictures/userPanel/p5.svg";
-import heartIcon from "@/public/icons/solid/heart.svg"
+import heartIcon from "@/public/icons/solid/heart.svg";
 import navbarLogo from "@/public/icons/logo/navbarLogo.svg";
 import Link from "next/link";
 import MainButton from "@/components/Modules/Button/MainButton";
@@ -16,9 +16,9 @@ function Sidedar() {
   const router = useRouter();
 
   const logoutUserHandler = () => {
-    revokeToken()
-    router.reload()
-  }
+    revokeToken();
+    router.reload();
+  };
   return (
     <div className="bg-white dark:bg-dark-lighter w-[28%] h-[90vh] p-10 rounded-3xl flex flex-col gap-10 sticky top-10 right-0">
       <div className="flex items-center gap-x-10 p-5">
@@ -34,7 +34,7 @@ function Sidedar() {
         </p>
       </div>
       <ul className="text-[16px] text-lightBody dark:text-darkBody font-peyda flex flex-col gap-5">
-        <li >
+        <li>
           <Link className="flex gap-2 items-center" href={"/userpanel"}>
             <span className="w-10 flex justify-center">
               <Image
@@ -44,13 +44,15 @@ function Sidedar() {
                 className="scale-80"
                 style={{ width: "auto" }}
               />
-
             </span>
             پیشخوان
           </Link>
         </li>
         <li>
-          <Link className="flex gap-2 items-center" href={"/userpanel/myCourses"}>
+          <Link
+            className="flex gap-2 items-center"
+            href={"/userpanel/myCourses"}
+          >
             <span className="w-10 flex justify-center">
               <Image
                 src={courses}
@@ -64,7 +66,10 @@ function Sidedar() {
           </Link>
         </li>
         <li>
-          <Link className="flex gap-2 items-center" href={"/userpanel/favorites"}>
+          <Link
+            className="flex gap-2 items-center"
+            href={"/userpanel/favorites/favoritCourse"}
+          >
             <span className="w-10 flex justify-center">
               <Image
                 src={heartIcon}
@@ -74,11 +79,31 @@ function Sidedar() {
                 style={{ width: "auto" }}
               />
             </span>
-            علاقه مندی های من
+            دوره های مورد علاقه
           </Link>
         </li>
         <li>
-          <Link className="flex gap-2 items-center" href={"/userpanel/myTikets"}>
+          <Link
+            className="flex gap-2 items-center"
+            href={"/userpanel/favorites/favoritNews"}
+          >
+            <span className="w-10 flex justify-center">
+              <Image
+                src={heartIcon}
+                priority={true}
+                alt=""
+                className="scale-75"
+                style={{ width: "auto" }}
+              />
+            </span>
+            اخبار های مورد علاقه
+          </Link>
+        </li>
+        <li>
+          <Link
+            className="flex gap-2 items-center"
+            href={"/userpanel/myTikets"}
+          >
             <span className="w-10 flex justify-center">
               <Image
                 src={tikets}
@@ -102,7 +127,6 @@ function Sidedar() {
                 style={{ width: "auto" }}
               />
             </span>
-
             پروفایل
           </Link>
         </li>
@@ -118,11 +142,7 @@ function Sidedar() {
               />
             </span>
             <MainButton
-              content={
-                <div className="text-[17px]">
-                  خروج از حساب
-                </div>
-              }
+              content={<div className="text-[17px]">خروج از حساب</div>}
               onClick={logoutUserHandler}
               variant="light"
               color="danger"
