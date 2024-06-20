@@ -35,15 +35,16 @@ export const sendBlogCommentApi = (payload: blogProps) => {
   });
 };
 
-export const addNewsLikeApi = (NewsId: string) => {
+export const addNewsFavoriteApi = (NewsId: string) => {
   return httpService.post(
-    baseUrl + `News/NewsLike/${NewsId}`
+    baseUrl + `News/AddFavoriteNews?NewsId=${NewsId}`
   );
 };
 
-export const addNewsDissLikeApi = (NewsId: string) => {
-  return httpService.post(
+export const deleteNewsFavoriteApi = (DeleteEntityId : string) => {
+  return httpService.delete(
     baseUrl +
-      `News/NewsDissLike/${NewsId}`
+      `News/DeleteFavoriteNews`,
+      {data: {deleteEntityId : DeleteEntityId}}
   );
 };

@@ -1,6 +1,6 @@
 import {
-  addNewsDissLikeApi,
-  addNewsLikeApi,
+  addNewsFavoriteApi,
+  deleteNewsFavoriteApi,
   getLatestNewsApi,
   getNewsCommentApi,
   getNewsWithPaginationApi,
@@ -76,36 +76,52 @@ export const useAddBlogCommentApi = (reset: () => void) => {
   });
 };
 
-export const useAddNewsLikeApi = (
-  setIsLiked: Dispatch<SetStateAction<boolean | undefined>>
-) => {
+export const useAddNewsFavoriteApi = () => {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: (CourseId: string) => addNewsLikeApi(CourseId),
+    mutationFn: ({ NewsId }: { NewsId: string | string[] | undefined }) => {
+      if (typeof NewsId === 'string') {
+        return addNewsFavoriteApi(NewsId);
+      } else {
+        // Handle the case where NewsId is not a string
+        throw new Error('Invalid NewsId');
+      }
+    },
     onSuccess: () => {
-      toast.success("خبری که لایک کردی با موفقیت انجام شد");
-      setIsLiked(true);
+      toast.success("این خبر به مورد علاقه های شما اضافه شد");
       queryClient.invalidateQueries({
-        queryKey: ["CoursesLike"],
+        queryKey: ["newsWithPagination"],
+      });
+      queryClient.invalidateQueries({
+        queryKey: ["newsDetails"],
       });
     },
   });
 };
 
-export const useAddNewsDissLikeApi = (
-  setIsLiked: Dispatch<SetStateAction<boolean | undefined>>
-) => {
+export const useDeleteNewsFavoriteApi = () => {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: (CourseId: string) => addNewsDissLikeApi(CourseId),
+    mutationFn: ({ deleteEntityId }: { deleteEntityId: string | undefined }) => {
+      if (typeof deleteEntityId === 'string') {
+        return deleteNewsFavoriteApi(deleteEntityId);
+      } else {
+        // Handle the case where deleteEntityId is not a string
+        throw new Error('Invalid deleteEntityId');
+      }
+    },
     onSuccess: () => {
-      toast.success("خبری که دیسلایک کردی با موفقیت انجام شد");
-      setIsLiked(false);
+      toast.success("این خبر از مورد علاقه های شما حذف شد");
       queryClient.invalidateQueries({
-        queryKey: ["CoursesLike"],
+        queryKey: ["newsWithPagination"],
+      });
+      queryClient.invalidateQueries({
+        queryKey: ["newsDetails"],
       });
     },
   });
 };
+
+
