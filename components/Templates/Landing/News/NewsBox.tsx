@@ -7,7 +7,6 @@ import SkeletonNewsCard from "./SkeletonNewsCard";
 
 export default function NewsBox() {
   const { data, isLoading } = useGetLatestNewsApi(7)
-  console.log(data?.news)
   return (
     <div className="lg:mt-36 mt-24">
       <BoxHeader title="آخرین اخبار" hasLink={false} />

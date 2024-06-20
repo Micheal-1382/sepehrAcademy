@@ -18,8 +18,6 @@ export default function BlogsBox() {
     ...query,
   });
 
-  console.log(data)
-
   const presentDate = new Date().toLocaleDateString("fa-IR", {
     year: "numeric",
     month: "long",

@@ -45,16 +45,6 @@ export const sendCommentApi = (payload: commentProps) => {
   });
 };
 
-export const getCourseReplyCommentsApi = (params: {
-  CourseId: string | string[] | undefined;
-  CommentId: string;
-}) => {
-  const { CourseId, CommentId } = params;
-  return httpService.get(
-    baseUrl + `Course/GetCourseReplyCommnets/${CourseId}/${CommentId}}`
-  );
-};
-
 export const addReplyCourseCommentApi = (payload: commentProps) => {
   return httpService.post(baseUrl + `Course/AddReplyCourseComment`, payload, {
     headers: {
@@ -111,4 +101,19 @@ export const deleteCourseFavoriteApi = (payload: {
       CourseFavoriteId: payload.CourseFavoriteId,
     },
   });
+};
+
+export const getSubCourseCommentApi = (
+  CommentId: string | string[] | undefined,
+  CourseId: string | string[] | undefined
+) => {
+  return httpService.get(
+    baseUrl + `Course/GetCourseReplyCommnets/${CourseId}/${CommentId}`
+  );
+};
+
+export const getSubNewsCommentApi = (
+  CommentId: string | string[] | undefined
+) => {
+  return httpService.get(baseUrl + `News/GetRepliesComments?Id=${CommentId}`);
 };
