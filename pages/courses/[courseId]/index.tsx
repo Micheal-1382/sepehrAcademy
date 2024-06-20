@@ -11,7 +11,7 @@ import { getCourseDetailsApi, getCoursesWithPaginationApi } from "@/services/api
 import { getCoursesCommentApi } from "@/services/api/coursesApi";
 import { GetStaticPaths, GetStaticProps } from "next";
 import { useRouter } from "next/router";
-import { useGetCourseDetailsApi, useGetCourseReplyCommentsApi, useGetCoursesCommentApi } from "@/hooks/api/useCoursesApi";
+import { useGetCourseDetailsApi, useGetCoursesCommentApi } from "@/hooks/api/useCoursesApi";
 import SkeletonCourseDetailsBox from "@/components/Templates/MainCourse/CourseDetails/SkeletonCourseDetailsBox";
 import SkeletonTeacherDetailsBox from "@/components/Templates/MainCourse/TeacherDetails/SkeletonTeacherDetailsBox";
 import CommentsBox from "@/components/Modules/CommentsBox/CommentsBox";
@@ -23,7 +23,6 @@ function CorseInfo() {
   const { data: courseDetailsData, isLoading: courseDetailsIsLoading } = useGetCourseDetailsApi(query.courseId)
 
   const { data: commentsData, isLoading: isCommentsLoading , refetch } = useGetCoursesCommentApi(query.courseId)
-  console.log(courseDetailsData)
 
   return (
     <>

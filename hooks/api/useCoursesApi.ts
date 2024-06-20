@@ -8,7 +8,6 @@ import {
   getTechnologiesApi,
   getCoursesCommentApi,
   sendCommentApi,
-  getCourseReplyCommentsApi,
   addReplyCourseCommentApi,
   addCourseCommentLikeApi,
   addCourseCommentDissLikeApi,
@@ -17,6 +16,7 @@ import {
   deleteCourseFavoriteApi,
   addCourseLikeApi,
   addCourseDissLikeApi,
+  getSubCourseCommentApi,
 } from "@/services/api/coursesApi";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { Dispatch, SetStateAction } from "react";
@@ -88,16 +88,6 @@ export const useAddCommentApi = (reset: () => void) => {
       reset();
       queryClient.invalidateQueries({ queryKey: ["coursesComments"] });
     },
-  });
-};
-
-export const useGetCourseReplyCommentsApi = (params: {
-  CourseId: string | string[] | undefined;
-  CommentId: string;
-}) => {
-  return useQuery({
-    queryKey: ["courseReplyComments"],
-    queryFn: () => getCourseReplyCommentsApi(params).then((data) => data.data),
   });
 };
 
@@ -213,5 +203,16 @@ export const useDeleteCourseFavoriteApi = () => {
         queryKey: ["courseDetails"],
       });
     },
+  });
+};
+
+export const useGetCourseSubCommentApi = (
+  CommentId: string | string[] | undefined,
+  CourseId: string | string[] | undefined,
+) => {
+  return useQuery({
+    queryKey: ["CourseSubComments", CommentId , CourseId],
+    queryFn: () => getSubCourseCommentApi(CommentId , CourseId).then((data) => data.data),
+    enabled: !!CommentId,
   });
 };

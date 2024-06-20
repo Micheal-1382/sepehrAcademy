@@ -23,7 +23,6 @@ function Hero() {
 
   const getLandingInfo = useGetLandingApi();
   const { data, isLoading } = getLandingInfo;
-  console.log(data);
 
   return (
     <>

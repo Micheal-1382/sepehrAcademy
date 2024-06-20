@@ -12,15 +12,19 @@ import { useRouter } from "next/router";
 import {
   useAddCourseCommentDissLikeApi,
   useAddCourseCommentLikeApi,
+  useGetCourseSubCommentApi
 } from "@/hooks/api/useCoursesApi";
+import CourseCommentCard from "@/components/Templates/Courses/CommentCard/CourseCommentCard";
+import BlogCommentCard from "@/components/Templates/Blogs/CommentCard/BlogsCommentCard";
 import convertToPersianDigit from "@/utils/convertToPersianDigit";
+import SkeletonCommentCard from "@/components/Modules/SkeletonCommentCard/SkeletonCommentCard";
 
 interface detectReplyToWhichUser {
   detectReplyToWhichUser?: ((userName: string | null) => void) | any;
 }
 
 
-type CourseCommentCard = CommentCardType & detectReplyToWhichUser;
+type CourseCommentCard = CommentCardType & detectReplyToWhichUser & any;
 
 function CommentCard({
   id,
@@ -36,10 +40,11 @@ function CommentCard({
   currentUserEmotion,
   pictureAddress,
   detectReplyToWhichUser,
+  isReplay
 }: CourseCommentCard) {
-
   const router = useRouter();
   const { pathname, query } = router;
+  const isInCoursePage = pathname.includes("courses")
 
   const { mutate: addCourseCommentLikeMutate, isPending: addCourseCommentLikePending } = useAddCourseCommentLikeApi(
     courseId,
@@ -47,6 +52,8 @@ function CommentCard({
 
   const { mutate: addCourseCommentDissLikeMutate, isPending: addCourseCommentDissLikePending } =
     useAddCourseCommentDissLikeApi(courseId);
+
+  const { data: subCommentsData, isLoading: isSubCommentsLoading , refetch } = useGetCourseSubCommentApi(id , query.courseId)
 
   const commentDate = new Date(insertDate).toLocaleDateString("fa-IR", {
     year: "numeric",
@@ -73,10 +80,15 @@ function CommentCard({
   const dislikeCommentHandler = () => {
     return addCourseCommentDissLikeMutate(id);
   };
+
+  const getReplaysHandler = () => {
+    return addCourseCommentDissLikeMutate(id);
+  };
+
   return (
     <Card
       className={`${parentId
-        ? "bg-mainBodyBg dark:bg-dark"
+        ?`bg-mainBodyBg dark:${isReplay ? "bg-dark-lighter" : "bg-dark" }`
         : "bg-white dark:bg-dark-lighter"
         } rounded-3xl p-4 shadow-none`}
     >
@@ -137,7 +149,7 @@ function CommentCard({
               {convertToPersianDigit(likeCount)}
             </span>
           </button>
-          <button className="flex flex-col items-center gap-1">
+          {!isReplay && <button className="flex flex-col items-center gap-1">
             <Image
               src={replyIcon}
               alt=""
@@ -147,7 +159,7 @@ function CommentCard({
             <span className="text-xs font-peyda">
               {convertToPersianDigit(0)}
             </span>
-          </button>
+          </button>}
         </div>
       </CardHeader>
       <Divider className="mb-6" />
@@ -155,11 +167,20 @@ function CommentCard({
         {title}
         {describe}
       </p>
-      {/* <div className="flex flex-col gap-y-4 mt-6">
-        {replies.map((reply, index) => (
-          <CommentCard {...reply} key={index} />
-        ))}
-      </div> */}
+      <div className="flex flex-col gap-5 text-right mt-4">
+          {isSubCommentsLoading ? Array.from({ length: 6 }, (_, index) => (
+            <SkeletonCommentCard key={index} />
+          )) : subCommentsData?.map((comment : any) => (
+            <>
+            {isInCoursePage ?
+              <CourseCommentCard isReplay={true} refetch={refetch} {...comment} key={comment?.id} detectReplyToWhichUser={detectReplyToWhichUser} />
+              : 
+              <BlogCommentCard {...comment} key={comment?.id} detectReplyToWhichUser={detectReplyToWhichUser} />
+            }
+            </>
+          ))}
+          {!isReplay && (subCommentsData?.length === 0 && <p className="font-peyda text-sm text-secondary">تا الان هیچ بازخوردی برای این نظر ثبت نشده است!</p>)}
+        </div>
     </Card>
   );
 }

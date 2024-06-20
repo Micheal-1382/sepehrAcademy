@@ -33,8 +33,6 @@ export default function EffectCardSlider({
     };
   }, []);
 
-  console.log(data)
-
   return (
     <Swiper
       dir="ltr"
