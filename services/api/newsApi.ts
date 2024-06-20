@@ -34,3 +34,17 @@ export const sendBlogCommentApi = (payload: blogProps) => {
     },
   });
 };
+
+export const addNewsFavoriteApi = (NewsId: string) => {
+  return httpService.post(
+    baseUrl + `News/AddFavoriteNews?NewsId=${NewsId}`
+  );
+};
+
+export const deleteNewsFavoriteApi = (DeleteEntityId : string) => {
+  return httpService.delete(
+    baseUrl +
+      `News/DeleteFavoriteNews`,
+      {data: {deleteEntityId : DeleteEntityId}}
+  );
+};

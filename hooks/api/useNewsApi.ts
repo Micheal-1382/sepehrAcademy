@@ -1,4 +1,6 @@
 import {
+  addNewsFavoriteApi,
+  deleteNewsFavoriteApi,
   getLatestNewsApi,
   getNewsCommentApi,
   getNewsWithPaginationApi,
@@ -9,6 +11,7 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { getNewsDetailsApi } from "@/services/api/newsApi";
 import toast from "react-hot-toast";
 import { blogProps } from "@/interfaces/blogComment.interface";
+import { Dispatch, SetStateAction } from "react";
 
 export const useGetLatestNewsApi = (Count: number) => {
   return useQuery({
@@ -72,3 +75,53 @@ export const useAddBlogCommentApi = (reset: () => void) => {
     },
   });
 };
+
+export const useAddNewsFavoriteApi = () => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: ({ NewsId }: { NewsId: string | string[] | undefined }) => {
+      if (typeof NewsId === 'string') {
+        return addNewsFavoriteApi(NewsId);
+      } else {
+        // Handle the case where NewsId is not a string
+        throw new Error('Invalid NewsId');
+      }
+    },
+    onSuccess: () => {
+      toast.success("این خبر به مورد علاقه های شما اضافه شد");
+      queryClient.invalidateQueries({
+        queryKey: ["newsWithPagination"],
+      });
+      queryClient.invalidateQueries({
+        queryKey: ["newsDetails"],
+      });
+    },
+  });
+};
+
+export const useDeleteNewsFavoriteApi = () => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: ({ deleteEntityId }: { deleteEntityId: string | undefined }) => {
+      if (typeof deleteEntityId === 'string') {
+        return deleteNewsFavoriteApi(deleteEntityId);
+      } else {
+        // Handle the case where deleteEntityId is not a string
+        throw new Error('Invalid deleteEntityId');
+      }
+    },
+    onSuccess: () => {
+      toast.success("این خبر از مورد علاقه های شما حذف شد");
+      queryClient.invalidateQueries({
+        queryKey: ["newsWithPagination"],
+      });
+      queryClient.invalidateQueries({
+        queryKey: ["newsDetails"],
+      });
+    },
+  });
+};
+
+
