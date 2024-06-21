@@ -179,3 +179,8 @@ input[type="number"] {
 .nav-animation{
   animation: navAnimation 500ms ease-in-out 2ms 1 normal forwards;
 }
+
+.style-module_emptyIcons__Bg-FZ.empty-icons{
+  display: flex;  
+  gap: 10px;
+}

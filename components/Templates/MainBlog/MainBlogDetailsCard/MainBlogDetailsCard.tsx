@@ -53,7 +53,7 @@ export default function MainBlogDetailsCard({ addUserFullName, isCurrentUserFavo
               </MainTooltip>
             )
           ) : deleteNewsFavoriteIsPending ? (
-            <Spinner size="sm" />
+            <Spinner size='lg' />
           ) : (
             <MainTooltip content="حذف از علاقه مندی">
               <Image
