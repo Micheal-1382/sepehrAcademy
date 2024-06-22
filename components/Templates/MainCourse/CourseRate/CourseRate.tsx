@@ -53,7 +53,7 @@ function CourseRate({
   };
 
   return (
-    <div className="shadow-2xl flex justify-between items-center shadow-shadowColor dark:shadow-none p-6 dark:bg-dark-lighter rounded-xl">
+    <div className="shadow-2xl flex justify-between items-center shadow-shadowColor dark:shadow-none p-6 bg-white dark:bg-dark-lighter rounded-xl">
       {!courseDetailsIsLoading ? (
         <>
           <div>
@@ -71,7 +71,7 @@ function CourseRate({
           <div>
             {isUserAuthenticated() ? (
               <MainButton
-                className="bg-primary dark:bg-primary-darker text-btnText px-7 py-5 rounded-3x text-md"
+                className="bg-primary dark:bg-primary-darker text-btnText w-[150px] px-7 py-5 rounded-3x text-md"
                 content={<p>ثبت امتیاز</p>}
                 isLoading={addCourseStarIsPending}
                 onClick={starCourseHandler}

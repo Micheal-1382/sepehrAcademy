@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import UserCard from "@/components/Modules/UserCard/UserCard";
 import { Card, CardHeader, Divider, Spinner } from "@nextui-org/react";
 import { CommentCard as CommentCardType } from "@/interfaces/commentCard.interface";
@@ -12,17 +12,18 @@ import { useRouter } from "next/router";
 import {
   useAddCourseCommentDissLikeApi,
   useAddCourseCommentLikeApi,
-  useGetCourseSubCommentApi
+  useGetCourseSubCommentApi,
 } from "@/hooks/api/useCoursesApi";
 import CourseCommentCard from "@/components/Templates/Courses/CommentCard/CourseCommentCard";
 import BlogCommentCard from "@/components/Templates/Blogs/CommentCard/BlogsCommentCard";
 import convertToPersianDigit from "@/utils/convertToPersianDigit";
 import SkeletonCommentCard from "@/components/Modules/SkeletonCommentCard/SkeletonCommentCard";
+import MainButton from "@/components/Modules/Button/MainButton";
+import { isUserAuthenticated } from "@/utils/isUserAuthenticated";
 
 interface detectReplyToWhichUser {
   detectReplyToWhichUser?: ((userName: string | null) => void) | any;
 }
-
 
 type CourseCommentCard = CommentCardType & detectReplyToWhichUser & any;
 
@@ -40,20 +41,21 @@ function CommentCard({
   currentUserEmotion,
   pictureAddress,
   detectReplyToWhichUser,
-  isReplay
+  isReplay,
 }: CourseCommentCard) {
   const router = useRouter();
-  const { pathname, query } = router;
-  const isInCoursePage = pathname.includes("courses")
+  const { pathname, asPath, query } = router;
+  const isInCoursePage = pathname.includes("courses");
 
-  const { mutate: addCourseCommentLikeMutate, isPending: addCourseCommentLikePending } = useAddCourseCommentLikeApi(
-    courseId,
-  );
+  const {
+    mutate: addCourseCommentLikeMutate,
+    isPending: addCourseCommentLikePending,
+  } = useAddCourseCommentLikeApi(courseId);
 
-  const { mutate: addCourseCommentDissLikeMutate, isPending: addCourseCommentDissLikePending } =
-    useAddCourseCommentDissLikeApi(courseId);
-
-  const { data: subCommentsData, isLoading: isSubCommentsLoading , refetch } = useGetCourseSubCommentApi(id , query.courseId)
+  const {
+    mutate: addCourseCommentDissLikeMutate,
+    isPending: addCourseCommentDissLikePending,
+  } = useAddCourseCommentDissLikeApi(courseId);
 
   const commentDate = new Date(insertDate).toLocaleDateString("fa-IR", {
     year: "numeric",
@@ -80,17 +82,25 @@ function CommentCard({
   const dislikeCommentHandler = () => {
     return addCourseCommentDissLikeMutate(id);
   };
+  const [commentId , setCommentId] = useState<any>(null)
+  const {
+    data: subCommentsData,
+    isLoading: isSubCommentsLoading,
+    refetch,
+  } = useGetCourseSubCommentApi(commentId, query.courseId);
 
+  
   const getReplaysHandler = () => {
-    return addCourseCommentDissLikeMutate(id);
+    setCommentId(id)
   };
 
   return (
     <Card
-      className={`${parentId
-        ?`bg-mainBodyBg dark:${isReplay ? "bg-dark-lighter" : "bg-dark" }`
-        : "bg-white dark:bg-dark-lighter"
-        } rounded-3xl p-4 shadow-none`}
+      className={`${
+        parentId
+          ? `${isReplay ? "bg-white" : "bg-mainBodyBg"} dark:${isReplay ? "bg-dark-lighter" : "bg-dark"}`
+          : "bg-white dark:bg-dark-lighter"
+      } rounded-3xl p-4 shadow-none`}
     >
       <CardHeader className="pb-6 px-0 flex justify-between">
         <div className="flex flex-col space-y-4">
@@ -105,61 +115,53 @@ function CommentCard({
         <div className="flex items-start gap-2">
           <button className="flex flex-col items-center gap-1">
             {currentUserEmotion === "DISSLIKED" ? (
-              <Image
-                src={solidDislikeIcon}
-                alt=""
-                className="cursor-pointer"
-              />
+              <Image src={solidDislikeIcon} alt="" className="cursor-pointer" />
+            ) : addCourseCommentDissLikePending ? (
+              <Spinner size="sm" />
             ) : (
-              addCourseCommentDissLikePending ? <Spinner size="sm" /> : (
-                <>
-                  <Image
-                    src={outlineDislikeIcon}
-                    alt=""
-                    className="cursor-pointer"
-                    onClick={dislikeCommentHandler}
-                  />
-                </>
-
-              )
+              <>
+                <Image
+                  src={outlineDislikeIcon}
+                  alt=""
+                  className="cursor-pointer"
+                  onClick={dislikeCommentHandler}
+                />
+              </>
             )}
             <span className="text-xs font-peyda">
               {convertToPersianDigit(disslikeCount)}
             </span>
           </button>
           <button className="flex flex-col items-center gap-1">
-            {currentUserEmotion === "LIKED" ? ((
+            {currentUserEmotion === "LIKED" ? (
+              <Image src={solidLikeIcon} alt="" className="cursor-pointer" />
+            ) : addCourseCommentLikePending ? (
+              <Spinner size="sm" />
+            ) : (
               <Image
-              src={solidLikeIcon}
+                src={outlineLikeIcon}
                 alt=""
                 className="cursor-pointer"
+                onClick={likeCommentHandler}
               />
-            )
-            ) : (
-              addCourseCommentLikePending ? <Spinner size="sm" /> : (
-                <Image
-                  src={outlineLikeIcon}
-                  alt=""
-                  className="cursor-pointer"
-                  onClick={likeCommentHandler}
-                />
-              )
             )}
             <span className="text-xs font-peyda">
               {convertToPersianDigit(likeCount)}
             </span>
           </button>
-          {!isReplay && <button className="flex flex-col items-center gap-1">
-            <Image
-              src={replyIcon}
-              alt=""
-              onClick={navigateToCommentForm}
-              className="cursor-pointer"
-            />
-            <span className="text-xs font-peyda">
-              {convertToPersianDigit(0)}
-            </span>
-          </button>}
+          {!isReplay && (
+            <button className="flex flex-col items-center gap-1">
+              <Image
+                src={replyIcon}
+                alt=""
+                onClick={navigateToCommentForm}
+                className="cursor-pointer"
+              />
+              <span className="text-xs font-peyda">
+                {convertToPersianDigit(0)}
+              </span>
+            </button>
+          )}
         </div>
       </CardHeader>
       <Divider className="mb-6" />
@@ -167,20 +169,66 @@ function CommentCard({
         {title}
         {describe}
       </p>
-      <div className="flex flex-col gap-5 text-right mt-4">
-          {isSubCommentsLoading ? Array.from({ length: 6 }, (_, index) => (
-            <SkeletonCommentCard key={index} />
-          )) : subCommentsData?.map((comment : any) => (
-            <>
-            {isInCoursePage ?
-              <CourseCommentCard isReplay={true} refetch={refetch} {...comment} key={comment?.id} detectReplyToWhichUser={detectReplyToWhichUser} />
-              : 
-              <BlogCommentCard {...comment} key={comment?.id} detectReplyToWhichUser={detectReplyToWhichUser} />
+      {isUserAuthenticated() && !isReplay ? (
+        <MainButton
+          className="bg-primary my-10 w-[150px] dark:bg-primary-darker text-btnText px-8 py-3 lgb:px-10 lgb:py-6 rounded-3x text-md"
+          content={<p>مشاهده رپلای ها</p>}
+          isLoading={isSubCommentsLoading}
+          onClick={getReplaysHandler}
+        />
+      ) : (
+        !isUserAuthenticated() && 
+          <>
+          <div className="space-y-2">
+          <MainButton
+            className="bg-primary my-10 w-[150px] dark:bg-primary-darker text-btnText px-8 py-4 lgb:px-10 lgb:py-6 rounded-3x text-md"
+            content={<p>ورود به حساب</p>}
+            onClick={() =>
+              router.push({
+                pathname: "/login",
+                query: {
+                  callbackUrl: asPath,
+                },
+              })
             }
-            </>
-          ))}
-          {!isReplay && (subCommentsData?.length === 0 && <p className="font-peyda text-sm text-secondary">تا الان هیچ بازخوردی برای این نظر ثبت نشده است!</p>)}
+          />
+          <p className="font-peyda text-secondary">
+            برای رزرو دوره باید وارد حسابت بشی
+          </p>
         </div>
+          </>
+      
+      )}
+      <div className="flex flex-col gap-5 text-right mt-4">
+        {isSubCommentsLoading
+          ? Array.from({ length: 6 }, (_, index) => (
+              <SkeletonCommentCard key={index} />
+            ))
+          : subCommentsData?.map((comment: any) => (
+              <>
+                {isInCoursePage ? (
+                  <CourseCommentCard
+                    isReplay={true}
+                    refetch={refetch}
+                    {...comment}
+                    key={comment?.id}
+                    detectReplyToWhichUser={detectReplyToWhichUser}
+                  />
+                ) : (
+                  <BlogCommentCard
+                    {...comment}
+                    key={comment?.id}
+                    detectReplyToWhichUser={detectReplyToWhichUser}
+                  />
+                )}
+              </>
+            ))}
+        {!isReplay && subCommentsData?.length === 0 && (
+          <p className="font-peyda text-sm text-secondary">
+            تا الان هیچ بازخوردی برای این نظر ثبت نشده است!
+          </p>
+        )}
+      </div>
     </Card>
   );
 }
