@@ -48,7 +48,7 @@ export default function MainStepper({ steps }: { steps: number }) {
           )}
           <Divider className="border-dashed border-[1px] border-[#999] dark:border-white absolute w-52 top-[28px] right-[60px]" />
           <span
-            ref={(span) => (spanRefs.current[index] = span)}
+            ref={(span: any) => (spanRefs.current[index] = span)}
             className={`${scrollToStep === index + 1 ? "base-scale" : ``
               } rounded-full relative border-[2px] border-[#ccc] mr-10 bg-mainBodyBg dark:bg-dark dark:text-DarkTitle z-10 font-peyda inline-flex justify-center items-center w-[50px] h-[50px]`}
           >
