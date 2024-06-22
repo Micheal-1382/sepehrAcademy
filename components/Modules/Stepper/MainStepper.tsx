@@ -4,9 +4,7 @@ import React, { useEffect, useRef, useState } from "react";
 
 export default function MainStepper({ steps }: { steps: number }) {
   const [scrollToStep, setScrollToStep] = useState<number>(0);
-
   const positions = useRef<{ y: number }[]>([]);
-
   const spanRefs = useRef<any>([]);
 
   useEffect(() => {
