@@ -15,6 +15,7 @@ import { useGetCourseDetailsApi, useGetCoursesCommentApi } from "@/hooks/api/use
 import SkeletonCourseDetailsBox from "@/components/Templates/MainCourse/CourseDetails/SkeletonCourseDetailsBox";
 import SkeletonTeacherDetailsBox from "@/components/Templates/MainCourse/TeacherDetails/SkeletonTeacherDetailsBox";
 import CommentsBox from "@/components/Modules/CommentsBox/CommentsBox";
+import CourseRate from "@/components/Templates/MainCourse/CourseRate/CourseRate";
 
 function CorseInfo() {
   const router = useRouter()
@@ -24,6 +25,8 @@ function CorseInfo() {
 
   const { data: commentsData, isLoading: isCommentsLoading , refetch } = useGetCoursesCommentApi(query.courseId)
 
+  console.log(courseDetailsData)
+
   return (
     <>
       {courseDetailsIsLoading || !query.courseId ? <SkeletonCourseDetailsBox /> : <CourseDetailsBox {...courseDetailsData} />}
@@ -32,6 +35,7 @@ function CorseInfo() {
           <CourseSummaryBox {...courseDetailsData} isLoading={courseDetailsIsLoading || !query.courseId} />
           <CourseDescriptionBox description={courseDetailsData?.describe ?? ""} isLoading={courseDetailsIsLoading || !query.courseId} />
           <CourseHeadlinesBox data={getCourseTitles()} />
+          <CourseRate currentRate={courseDetailsData?.currentUserRateNumber} courseDetailsIsLoading={courseDetailsIsLoading}/>
           <CommentsBox data={commentsData} refetch={refetch} isCommentsLoading={isCommentsLoading || !query.courseId} />
         </div>
         <div className="hidden lg:flex flex-col gap-y-8 w-1/3">

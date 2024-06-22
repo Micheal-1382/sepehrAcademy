@@ -17,6 +17,7 @@ import {
   addCourseLikeApi,
   addCourseDissLikeApi,
   getSubCourseCommentApi,
+  addCourseStarsApi,
 } from "@/services/api/coursesApi";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { Dispatch, SetStateAction } from "react";
@@ -214,5 +215,14 @@ export const useGetCourseSubCommentApi = (
     queryKey: ["CourseSubComments", CommentId , CourseId],
     queryFn: () => getSubCourseCommentApi(CommentId , CourseId).then((data) => data.data),
     enabled: !!CommentId,
+  });
+};
+
+export const useAddStarsApi = () => {
+  return useMutation({
+    mutationFn: (paload : any) => addCourseStarsApi(paload),
+    onSuccess: () => {
+      toast.success("ثبت امتیاز موفقیت آمیز بود");
+    },
   });
 };
