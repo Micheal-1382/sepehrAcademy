@@ -24,9 +24,6 @@ function CorseInfo() {
   const { data: courseDetailsData, isLoading: courseDetailsIsLoading } = useGetCourseDetailsApi(query.courseId)
 
   const { data: commentsData, isLoading: isCommentsLoading , refetch } = useGetCoursesCommentApi(query.courseId)
-
-  console.log(courseDetailsData)
-
   return (
     <>
       {courseDetailsIsLoading || !query.courseId ? <SkeletonCourseDetailsBox /> : <CourseDetailsBox {...courseDetailsData} />}

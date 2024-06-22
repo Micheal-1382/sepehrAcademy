@@ -56,6 +56,7 @@ export default function CourseDetailsBox({
   const deleteCourseFavoriteHandler = () => {
     deleteCourseFavoriteMutate({ CourseFavoriteId: userFavoriteId });
   };
+
   return (
     <div className="relative h-[300px] lg:h-[350px] lgb:h-[450px] mb-20 text-DarkBody rounded-3xl">
       <Image
@@ -110,8 +111,8 @@ export default function CourseDetailsBox({
             </div>
             <div>
               {isUserFavorite ? (
-                addCourseFavoriteIsPending ? (
-                  <Spinner size="lg"/>
+                deleteCourseFavoriteIsPending ? (
+                  <Spinner size="lg" />
                 ) : (
                   <MainTooltip content="این دوره مورد علاقه شماست">
                     <Image
@@ -122,8 +123,8 @@ export default function CourseDetailsBox({
                     />
                   </MainTooltip>
                 )
-              ) : deleteCourseFavoriteIsPending ? (
-                <Spinner size="lg"/>
+              ) : addCourseFavoriteIsPending ? (
+                <Spinner size="lg" />
               ) : (
                 <MainTooltip content="افزودن به مورد علاقه">
                   <Image

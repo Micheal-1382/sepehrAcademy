@@ -122,6 +122,5 @@ export const addCourseStarsApi = (payload: {
   courseId: string | string[] | undefined;
   rate: number | number[] | undefined;
 }) => {
-  console.log(`Course/AddCourseFavoriteCourse/SetCourseRating?CourseId=${payload.courseId}&RateNumber=${payload.rate}`)
   return httpService.post(baseUrl + `Course/SetCourseRating?CourseId=${payload.courseId}&RateNumber=${payload.rate}`);
 };

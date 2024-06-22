@@ -23,8 +23,6 @@ function CourseRate({
     false,
   ]);
 
-  console.log(currentRate);
-
   useEffect(() => {
     // Initialize stars based on currentRate
     const initialStars = stars.map((_, index) => index < currentRate);
@@ -34,8 +32,6 @@ function CourseRate({
   const rate = stars.reduce((count, value) => {
     return value === true ? count + 1 : count;
   }, 0);
-
-  console.log(rate);
 
   const router = useRouter();
   const { asPath, query } = router;

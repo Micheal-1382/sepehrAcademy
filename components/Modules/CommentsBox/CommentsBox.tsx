@@ -14,12 +14,12 @@ export default function CommentsBox({
   data,
   isCommentsLoading,
   refetch
-}: 
+}:
   any
 ) {
 
   const router = useRouter()
-  const { asPath, query , pathname } = router
+  const { asPath, query, pathname } = router
 
   const isInCoursePage = pathname.includes("courses")
 
@@ -63,14 +63,12 @@ export default function CommentsBox({
         <div className="flex flex-col gap-5 text-right mt-4">
           {isCommentsLoading ? Array.from({ length: 6 }, (_, index) => (
             <SkeletonCommentCard key={index} />
-          )) : data?.map((comment : any) => (
-            <>
-            {isInCoursePage ?
-              <CourseCommentCard refetch={refetch} {...comment} key={comment?.id} detectReplyToWhichUser={detectReplyToWhichUser} />
-              : 
-              <BlogCommentCard {...comment} key={comment?.id} detectReplyToWhichUser={detectReplyToWhichUser} />
-            }
-            </>
+          )) : data?.map((comment: any, index: number) => (
+            isInCoursePage ?
+              <CourseCommentCard refetch={refetch} {...comment} key={index} detectReplyToWhichUser={detectReplyToWhichUser} />
+              :
+              <BlogCommentCard {...comment} key={index} detectReplyToWhichUser={detectReplyToWhichUser} />
+
           ))}
           {data?.length === 0 && <p className="font-kalamehBlack text-2xl text-secondary">تا الان هیچ نظری برای این دوره ثبت نشده است!</p>}
         </div>
