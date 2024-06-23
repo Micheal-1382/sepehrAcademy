@@ -1,9 +1,7 @@
 import React from "react";
-import CourseVerticalFilterBox from "@/components/Templates/Courses/CourseVerticalFilter/CourseVerticalFilterBox";
 import CoursesBox from "@/components/Templates/Courses/CoursesBox";
 import HorizontalFilterBox from "@/components/Modules/HorizontalFilter/HorizontalFilterBox";
 import { QueryClient, dehydrate } from "@tanstack/react-query";
-import CurvedPagination from "@/components/Modules/Pagination/CurvedPagination";
 import { getCoursesWithPaginationApi } from "@/services/api/coursesApi";
 import { GetServerSideProps } from "next";
 import courseSortingColItems from "@/constants/courseSortingColItems";
