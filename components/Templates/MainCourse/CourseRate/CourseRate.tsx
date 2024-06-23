@@ -3,18 +3,22 @@ import { isUserAuthenticated } from "@/utils/isUserAuthenticated";
 import MainButton from "@/components/Modules/Button/MainButton";
 import { useRouter } from "next/router";
 import {
-  useAddCourseReserveApi,
   useAddStarsApi,
 } from "@/hooks/api/useCoursesApi";
 import SkeletonCourseRate from "@/components/Templates/MainCourse/CourseRate/SkeletonCourseRate";
+import { useParams } from "next/navigation";
 
 function CourseRate({
   currentRate,
+  isUserRated,
   courseDetailsIsLoading,
 }: {
   currentRate: number;
+  isUserRated: boolean
   courseDetailsIsLoading: boolean;
 }) {
+  const params = useParams()
+
   const [stars, setStars] = useState<boolean[]>([
     false,
     false,
@@ -24,7 +28,6 @@ function CourseRate({
   ]);
 
   useEffect(() => {
-    // Initialize stars based on currentRate
     const initialStars = stars.map((_, index) => index < currentRate);
     setStars(initialStars);
   }, [currentRate]);
@@ -42,7 +45,7 @@ function CourseRate({
   };
 
   const { mutate: addCourseStarMutate, isPending: addCourseStarIsPending } =
-    useAddStarsApi();
+    useAddStarsApi(params?.courseId);
 
   const starCourseHandler = () => {
     addCourseStarMutate({ courseId: query.courseId, rate: Number(rate) });
@@ -65,31 +68,31 @@ function CourseRate({
             ))}
           </div>
           <div>
-            {isUserAuthenticated() ? (
+            {!isUserAuthenticated && <div className="space-y-2">
               <MainButton
-                className="bg-primary dark:bg-primary-darker text-btnText w-[150px] px-7 py-5 rounded-3x text-md"
-                content={<p>ثبت امتیاز</p>}
-                isLoading={addCourseStarIsPending}
-                onClick={starCourseHandler}
+                className="bg-primary dark:bg-primary-darker text-btnText px-7 py-5 rounded-3x text-md"
+                content={<p>ورود به حساب</p>}
+                onClick={() =>
+                  router.push({
+                    pathname: "/login",
+                    query: {
+                      callbackUrl: asPath,
+                    },
+                  })
+                }
               />
-            ) : (
-              <div className="space-y-2">
+              <p className="font-peyda text-secondary">
+                برای رزرو دوره باید وارد حسابت بشی
+              </p>
+            </div>}
+            {isUserAuthenticated() && (
+              !isUserRated ?
                 <MainButton
-                  className="bg-primary dark:bg-primary-darker text-btnText px-7 py-5 rounded-3x text-md"
-                  content={<p>ورود به حساب</p>}
-                  onClick={() =>
-                    router.push({
-                      pathname: "/login",
-                      query: {
-                        callbackUrl: asPath,
-                      },
-                    })
-                  }
-                />
-                <p className="font-peyda text-secondary">
-                  برای رزرو دوره باید وارد حسابت بشی
-                </p>
-              </div>
+                  className="bg-primary dark:bg-primary-darker text-btnText w-[150px] px-7 py-5 rounded-3x text-md"
+                  content={<p>ثبت امتیاز</p>}
+                  isLoading={addCourseStarIsPending}
+                  onClick={starCourseHandler}
+                /> : <p className="font-peyda text-secondary">به این دوره قبلا امتیاز دادی</p>
             )}
           </div>
         </>

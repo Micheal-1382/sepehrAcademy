@@ -35,7 +35,7 @@ export const useGetCourseDetailsApi = (
   CourseId: string | string[] | undefined
 ) => {
   return useQuery({
-    queryKey: ["courseDetails"],
+    queryKey: ["courseDetails", CourseId],
     queryFn: () => getCourseDetailsApi(CourseId).then((data) => data.data),
     enabled: !!CourseId,
   });
@@ -117,7 +117,7 @@ export const useAddCourseCommentLikeApi = (courseId: string) => {
     onSuccess: () => {
       toast.success("کامنتی که لایک کردی با موفقیت انجام شد");
       queryClient.invalidateQueries({
-        queryKey: ["coursesComments", "coursesTop" , courseId],
+        queryKey: ["coursesComments", courseId],
       });
     },
   });
@@ -132,7 +132,7 @@ export const useAddCourseCommentDissLikeApi = (courseId: string) => {
     onSuccess: () => {
       toast.success("کامنتی که دیسلایک کردی با موفقیت انجام شد");
       queryClient.invalidateQueries({
-        queryKey: ["coursesComments", "coursesTop" , courseId],
+        queryKey: ["coursesComments", "coursesTop", courseId],
       });
     },
   });
@@ -236,11 +236,16 @@ export const useGetNewsSubCommentApi = (
   });
 };
 
-export const useAddStarsApi = () => {
+export const useAddStarsApi = (CourseId: string | string[] | undefined) => {
+  const queryClient = useQueryClient();
+
   return useMutation({
     mutationFn: (paload: any) => addCourseStarsApi(paload),
     onSuccess: () => {
       toast.success("ثبت امتیاز موفقیت آمیز بود");
+      queryClient.invalidateQueries({
+        queryKey: ["courseDetails", CourseId],
+      });
     },
   });
 };

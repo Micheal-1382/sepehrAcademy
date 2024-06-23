@@ -3,12 +3,11 @@ import React, { useRef } from "react";
 import SubmitCommentForm from "../SubmitComment/SubmitCommentForm";
 import CourseCommentCard from "@/components/Templates/Courses/CommentCard/CourseCommentCard";
 import BlogCommentCard from "@/components/Templates/Blogs/CommentCard/BlogsCommentCard";
-import { CommentCard as CommentCardType } from "@/interfaces/commentCard.interface";
 import SkeletonCommentCard from "@/components/Modules/SkeletonCommentCard/SkeletonCommentCard";
 import { useRouter } from "next/router";
 import { isUserAuthenticated } from "@/utils/isUserAuthenticated";
 import MainButton from "@/components/Modules/Button/MainButton";
-import { newsCommentProps } from "@/interfaces/newsCommnet.interface";
+import { useParams } from "next/navigation";
 
 export default function CommentsBox({
   data,

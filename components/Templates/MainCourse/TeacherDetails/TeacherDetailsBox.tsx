@@ -12,8 +12,11 @@ import logout from "@/public/icons/theme/logout.svg";
 import Image from "next/image";
 import MainButton from "@/components/Modules/Button/MainButton";
 import { teacherDetailsProps } from "@/interfaces/teacherDetails.interface";
+import { useRouter } from "next/router";
 
 export default function TeacherDetailsBox({ teacherId, teacherName }: teacherDetailsProps) {
+  const router = useRouter()
+
   return (
     <Card
       dir="rtl"
@@ -43,8 +46,7 @@ export default function TeacherDetailsBox({ teacherId, teacherName }: teacherDet
           content={<p>مشاهده همه دوره های استاد</p>}
           variant="light"
           startIcon={<Image src={logout} alt="" />}
-          onClick={() => console.log(teacherId)
-          }
+          onClick={() => router.push(`/teachers/${teacherId}`)}
         />
       </CardFooter>
     </Card>
