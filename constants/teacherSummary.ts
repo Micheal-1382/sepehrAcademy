@@ -1,6 +1,7 @@
 import clockIcon from "@/public/pictures/teachers/clock.svg";
 import academicCapIcon from "@/public/icons/solid/academic-cap.svg";
 import starIcon from "@/public/pictures/teachers/star.svg";
+import newsIcon from "@/public/icons/theme/phoneMode/news.svg";
 
 const teacherSummary = [
   {
@@ -10,12 +11,12 @@ const teacherSummary = [
   },
   {
     id: 2,
-    title: "دانش آموزان",
-    icon: academicCapIcon,
+    title: "اخبار",
+    icon: newsIcon,
   },
   {
     id: 3,
-    title: "مدرک",
+    title: "تعداد دانشجویان",
     icon: academicCapIcon,
   },
   {

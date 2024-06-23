@@ -19,12 +19,12 @@ export default function TeacherCourses({
         titleColor="text-white"
       />
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
-        {data.slice(0, 4)
+        {data.length > 0 ? data.slice(0, 4)
           .map((item, index) => (
             <div key={index}>
               <Content {...item} />
             </div>
-          ))}
+          )) : <p className="font-peyda text-secondary col-span-full text-center text-2xl">این استاد هنوز هیچ دوره ای نداره</p>}
       </div>
       <Link
         href={`#`}

@@ -9,7 +9,7 @@ import fallbackImage from "@/public/pictures/teachers/arian.webp"
 
 function TeacherDetailBox({ courseCounts, fullName, histories, linkdinProfileLink, newsCount, pictureAddress, skills, teacherId }: teacherSummaryProps) {
 
-  const summaryItemsValues = [5, 15, 5, 4];
+  const summaryItemsValues = [courseCounts, newsCount, 5, 4];
   return (
     <>
       <Card className="relative mt-12 overflow-visible rounded-2xl">
