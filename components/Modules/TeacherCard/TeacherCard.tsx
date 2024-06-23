@@ -1,6 +1,5 @@
 import courseIcon from "@/public/pictures/teachers/course.svg";
 import newspaperIcon from "@/public/icons/theme/newspaper.svg";
-import teacherIcon from "@/public/pictures/teachers/teacher.svg";
 import linkedinIcon from "@/public/icons/theme/linkedin.svg";
 import { teachers } from "@/interfaces/teacher.interface";
 import { Card, CardBody, Chip, Divider } from "@nextui-org/react";
@@ -27,7 +26,7 @@ export default function TeacherCard({
       <CardBody>
         <div className="flex flex-col sm:flex-row gap-6">
           <div className="relative w-full sm:w-[40%] lgb:[30%] h-auto md:h-[280px] rounded-3xl overflow-hidden">
-            <Image src={validateImageAddress(pictureAddress, fallbackImage)} width={400} height={400} alt="" className="w-full" />
+            <Image src={validateImageAddress(pictureAddress, fallbackImage)} width={400} height={400} alt="" className="w-full object-fill" />
           </div>
 
           <div className="flex flex-col justify-start text-right w-full sm:w-[60%] lgb:[70%]">

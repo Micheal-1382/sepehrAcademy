@@ -16,7 +16,7 @@ export const useGetTeacherDetailsApi = (
   TeacherId: string | string[] | undefined
 ) => {
   return useQuery({
-    queryKey: ["teacherDetails"],
+    queryKey: ["teacherDetails", TeacherId],
     queryFn: () => getTeacherDetailsApi(TeacherId).then((data) => data.data),
     enabled: !!TeacherId,
   });
