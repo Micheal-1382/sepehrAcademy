@@ -5,10 +5,10 @@ import { Blog } from "@/interfaces/blog.interface";
 import { validateImageAddress } from "@/utils/validateImageAdderss";
 import fallbackImage from "@/public/pictures/blog/blogImage.jpg"
 
-function BlogOtherCard({ id, currentImageAddressTumb, title, miniDescribe }: Blog) {
+function BlogOtherCard({ currentImageAddressTumb, title, miniDescribe, newsId }: Blog) {
   const router = useRouter();
   return (
-    <div className="pt-[55px]" onClick={() => router.push(`/blogs/${id}`)}>
+    <div className="pt-[55px] cursor-pointer" onClick={() => router.push(`/blogs/${newsId}`)}>
       <div className="flex py-6 bg-white dark:bg-dark-lighter flex-col gap-4 rounded-3xl h-full">
         <div className="w-full flex flex-col items-center gap-5">
           <div className="overflow-hidden rounded-[38px] w-[85%] -mt-20">

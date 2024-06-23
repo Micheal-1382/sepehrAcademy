@@ -1,4 +1,3 @@
-import CourseFavoritesBox from '@/components/Templates/UserPanel/Favorites/CourseFavoritesBox';
 import NewsFavoritesBox from '@/components/Templates/UserPanel/Favorites/NewsFavoritesBox';
 import { getProfileInfoApi } from '@/services/api/panelApi';
 import { GetServerSideProps } from 'next';

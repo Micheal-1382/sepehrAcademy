@@ -12,6 +12,7 @@ interface Blog {
   currentUserSetRate: number;
   currentView: number;
   id: string;
+  newsId?: string;
   insertDate: string;
   isActive: boolean;
   isCurrentUserFavorite: boolean;
