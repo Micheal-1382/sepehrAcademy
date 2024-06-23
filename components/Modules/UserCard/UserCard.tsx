@@ -1,6 +1,6 @@
 import { UserCardType } from "@/interfaces/userCard.interface";
 import { validateImageAddress } from "@/utils/validateImageAdderss";
-import fallbackImage from "@/public/pictures/teachers/arian.webp"
+import fallbackImage from "@/public/pictures/defaultUser.png"
 import Image from "next/image";
 import React from "react";
 

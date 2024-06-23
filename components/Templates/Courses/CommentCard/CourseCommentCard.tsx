@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useState } from "react";
 import UserCard from "@/components/Modules/UserCard/UserCard";
 import { Card, CardHeader, Divider, Spinner } from "@nextui-org/react";
 import { CommentCard as CommentCardType } from "@/interfaces/commentCard.interface";
@@ -19,7 +19,6 @@ import BlogCommentCard from "@/components/Templates/Blogs/CommentCard/BlogsComme
 import convertToPersianDigit from "@/utils/convertToPersianDigit";
 import SkeletonCommentCard from "@/components/Modules/SkeletonCommentCard/SkeletonCommentCard";
 import MainButton from "@/components/Modules/Button/MainButton";
-import { isUserAuthenticated } from "@/utils/isUserAuthenticated";
 
 interface detectReplyToWhichUser {
   detectReplyToWhichUser?: ((userName: string | null) => void) | any;
@@ -45,7 +44,7 @@ function CommentCard({
   isReplay,
 }: CourseCommentCard) {
   const router = useRouter();
-  const { pathname, asPath, query } = router;
+  const { pathname, query } = router;
   const isInCoursePage = pathname.includes("courses");
 
   const {
@@ -96,13 +95,11 @@ function CommentCard({
 
   return (
     <Card
-      className={`${
-        parentId
-          ? `${isReplay ? "bg-white" : "bg-mainBodyBg"} dark:${
-              isReplay ? "bg-dark-lighter" : "bg-dark"
-            }`
+      className={`${parentId
+          ? `${isReplay ? "bg-white" : "bg-mainBodyBg"} dark:${isReplay ? "bg-dark-lighter" : "bg-dark"
+          }`
           : "bg-white dark:bg-dark-lighter"
-      } rounded-3xl p-4 shadow-none`}
+        } rounded-3xl p-4 shadow-none`}
     >
       <CardHeader className="pb-6 px-0 flex justify-between">
         <div className="flex flex-col space-y-4">
@@ -182,27 +179,27 @@ function CommentCard({
       <div className="flex flex-col gap-5 text-right mt-4">
         {isSubCommentsLoading
           ? Array.from({ length: 6 }, (_, index) => (
-              <SkeletonCommentCard key={index} />
-            ))
+            <SkeletonCommentCard key={index} />
+          ))
           : subCommentsData?.map((comment: any) => (
-              <>
-                {isInCoursePage ? (
-                  <CourseCommentCard
-                    isReplay={true}
-                    refetch={refetch}
-                    {...comment}
-                    key={comment?.id}
-                    detectReplyToWhichUser={detectReplyToWhichUser}
-                  />
-                ) : (
-                  <BlogCommentCard
-                    {...comment}
-                    key={comment?.id}
-                    detectReplyToWhichUser={detectReplyToWhichUser}
-                  />
-                )}
-              </>
-            ))}
+            <>
+              {isInCoursePage ? (
+                <CourseCommentCard
+                  isReplay={true}
+                  refetch={refetch}
+                  {...comment}
+                  key={comment?.id}
+                  detectReplyToWhichUser={detectReplyToWhichUser}
+                />
+              ) : (
+                <BlogCommentCard
+                  {...comment}
+                  key={comment?.id}
+                  detectReplyToWhichUser={detectReplyToWhichUser}
+                />
+              )}
+            </>
+          ))}
         {subCommentsData?.length === 0 && (
           <p className="font-peyda text-sm text-secondary">
             تا الان هیچ بازخوردی برای این نظر ثبت نشده است!

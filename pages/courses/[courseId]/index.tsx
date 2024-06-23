@@ -23,7 +23,7 @@ function CorseInfo() {
 
   const { data: courseDetailsData, isLoading: courseDetailsIsLoading } = useGetCourseDetailsApi(query.courseId)
 
-  const { data: commentsData, isLoading: isCommentsLoading , refetch } = useGetCoursesCommentApi(query.courseId)
+  const { data: commentsData, isLoading: isCommentsLoading, refetch } = useGetCoursesCommentApi(query.courseId)
   return (
     <>
       {courseDetailsIsLoading || !query.courseId ? <SkeletonCourseDetailsBox /> : <CourseDetailsBox {...courseDetailsData} />}
@@ -32,7 +32,7 @@ function CorseInfo() {
           <CourseSummaryBox {...courseDetailsData} isLoading={courseDetailsIsLoading || !query.courseId} />
           <CourseDescriptionBox description={courseDetailsData?.describe ?? ""} isLoading={courseDetailsIsLoading || !query.courseId} />
           <CourseHeadlinesBox data={getCourseTitles()} />
-          <CourseRate currentRate={courseDetailsData?.currentUserRateNumber} courseDetailsIsLoading={courseDetailsIsLoading}/>
+          <CourseRate currentRate={courseDetailsData?.currentUserRateNumber} isUserRated={courseDetailsData?.currentUserSetRate} courseDetailsIsLoading={courseDetailsIsLoading} />
           <CommentsBox data={commentsData} refetch={refetch} isCommentsLoading={isCommentsLoading || !query.courseId} />
         </div>
         <div className="hidden lg:flex flex-col gap-y-8 w-1/3">
