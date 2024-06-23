@@ -84,25 +84,29 @@ function Hero() {
       <div className="flex gap-28 justify-center mt-40">
         <div className="flex items-center flex-col gap-5 text-primary dark:text-primary-lighter">
           <Image alt="" className="w-20" src={teacher} />
-          <div className="font-peyda text-xl">
+          <p>تعداد اساتید</p>
+          <div className="font-peyda text-xl text-secondary dark:text-white">
             {!isLoading ? <CountUp end={data.teacherCount} duration={4} /> : <Spinner />}
           </div>
         </div>
         <div className="flex items-center flex-col gap-5 text-primary dark:text-primary-lighter">
           <Image alt="" className="w-20" src={student} />
-          <div className="font-peyda text-xl">
+          <p>تعداد دانشجوها</p>
+          <div className="font-peyda text-xl text-secondary dark:text-white">
             {!isLoading ? <CountUp end={data.studentCount} duration={4} /> : <Spinner />}
           </div>
         </div>
         <div className="flex items-center flex-col gap-5 text-primary dark:text-primary-lighter">
           <Image alt="" className="w-20" src={news} />
-          <div className="font-peyda text-xl">
+          <p>تعداد مقاله ها</p>
+          <div className="font-peyda text-xl text-secondary dark:text-white">
             {!isLoading ? <CountUp end={data.newsCount} duration={4} /> : <Spinner />}
           </div>
         </div>
         <div className="flex items-center flex-col gap-5 text-primary dark:text-primary-lighter">
           <Image alt="" className="w-20" src={course} />
-          <div className="font-peyda text-xl">
+          <p>تعداد دوره ها</p>
+          <div className="font-peyda text-xl text-secondary dark:text-white">
             {!isLoading ? <CountUp end={data.courseCount} duration={4} /> : <Spinner />}
           </div>
         </div>
