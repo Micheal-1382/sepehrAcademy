@@ -43,7 +43,16 @@ export default function PersonalInfoBox({ data, isLoading }: {
   }, [data])
 
   const submitFormHandler: SubmitHandler<profileInfoApiProps> = (data) => {
-    updateProfileInfoMutate({ ...data, BirthDay: new Date("2024-12-05").toISOString() })
+    const {
+      year: birthYear,
+      month: birthMonth,
+      day: birthDayDate,
+    } = data.BirthDay;
+
+    const BirthDay = `${birthYear}-${birthMonth}-${birthDayDate}`;
+
+
+    updateProfileInfoMutate({ ...data, BirthDay })
   };
 
 
