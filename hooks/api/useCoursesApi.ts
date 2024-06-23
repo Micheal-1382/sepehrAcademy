@@ -185,6 +185,9 @@ export const useAddCourseFavoriteApi = () => {
       queryClient.invalidateQueries({
         queryKey: ["courseDetails"],
       });
+      queryClient.invalidateQueries({
+        queryKey: ["coursesTop"],
+      });
     },
   });
 };
@@ -193,7 +196,7 @@ export const useDeleteCourseFavoriteApi = () => {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: (payload: { CourseFavoriteId: string|undefined }) =>
+    mutationFn: (payload: { CourseFavoriteId: string | undefined }) =>
       deleteCourseFavoriteApi(payload),
     onSuccess: () => {
       toast.success("این دوره از مورد علاقه های شما حذف شد");
@@ -203,24 +206,28 @@ export const useDeleteCourseFavoriteApi = () => {
       queryClient.invalidateQueries({
         queryKey: ["courseDetails"],
       });
+      queryClient.invalidateQueries({
+        queryKey: ["coursesTop"],
+      });
     },
   });
 };
 
 export const useGetCourseSubCommentApi = (
   CommentId: string | string[] | undefined,
-  CourseId: string | string[] | undefined,
+  CourseId: string | string[] | undefined
 ) => {
   return useQuery({
-    queryKey: ["CourseSubComments", CommentId , CourseId],
-    queryFn: () => getSubCourseCommentApi(CommentId , CourseId).then((data) => data.data),
+    queryKey: ["CourseSubComments", CommentId, CourseId],
+    queryFn: () =>
+      getSubCourseCommentApi(CommentId, CourseId).then((data) => data.data),
     enabled: !!CommentId,
   });
 };
 
 export const useAddStarsApi = () => {
   return useMutation({
-    mutationFn: (paload : any) => addCourseStarsApi(paload),
+    mutationFn: (paload: any) => addCourseStarsApi(paload),
     onSuccess: () => {
       toast.success("ثبت امتیاز موفقیت آمیز بود");
     },
