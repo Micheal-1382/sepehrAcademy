@@ -5,14 +5,14 @@ import courses from "@/public/pictures/userPanel/p2.svg";
 import tikets from "@/public/pictures/userPanel/p3.svg";
 import profile from "@/public/pictures/userPanel/p4.svg";
 import exite from "@/public/pictures/userPanel/p5.svg";
-import heartIcon from "@/public/icons/solid/heart.svg";
+import heartIcon from "@/public/pictures/courses/heart.svg";
 import navbarLogo from "@/public/icons/logo/navbarLogo.svg";
 import Link from "next/link";
 import MainButton from "@/components/Modules/Button/MainButton";
 import { revokeToken } from "@/utils/revokeToken";
 import { useRouter } from "next/router";
 
-function Sidedar() {
+function Sidedar({responsive} : {responsive : boolean}) {
   const router = useRouter();
 
   const logoutUserHandler = () => {
@@ -20,7 +20,7 @@ function Sidedar() {
     router.reload();
   };
   return (
-    <div className="bg-white dark:bg-dark-lighter w-[28%] h-[90vh] p-10 rounded-3xl flex flex-col gap-10 sticky top-10 right-0">
+    <div className={`bg-white ${responsive? "flex lg:hidden w-full mb-10 justify-center items-center" : "hidden lg:flex sticky w-[28%] h-[90vh]"} dark:bg-dark-lighter p-10 rounded-3xl flex-col gap-10 top-10 right-0`}>
       <div className="flex items-center gap-x-10 p-5">
         <Image
           src={navbarLogo}
@@ -75,7 +75,7 @@ function Sidedar() {
                 src={heartIcon}
                 priority={true}
                 alt=""
-                className="scale-75"
+                className="scale-100"
                 style={{ width: "auto" }}
               />
             </span>
@@ -92,7 +92,7 @@ function Sidedar() {
                 src={heartIcon}
                 priority={true}
                 alt=""
-                className="scale-75"
+                className="scale-100"
                 style={{ width: "auto" }}
               />
             </span>

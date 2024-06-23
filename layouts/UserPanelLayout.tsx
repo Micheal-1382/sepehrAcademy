@@ -11,9 +11,10 @@ export default function UserPanelLayout({ children }: any) {
   return (
     <div className="container">
       <div className="flex gap-8 mt-10">
-        <Sidebar />
-        <div className="w-[70%]">
+        <Sidebar responsive={false}/>
+        <div className="lg:w-[70%] w-full">
           <UserPanelTopNavigation />
+          <Sidebar responsive={true}/>
           {isMounted ? children : null}
         </div>
       </div>
