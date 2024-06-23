@@ -41,6 +41,7 @@ function CommentCard({
   currentUserEmotion,
   pictureAddress,
   detectReplyToWhichUser,
+  acceptReplysCount,
   isReplay,
 }: CourseCommentCard) {
   const router = useRouter();
@@ -82,23 +83,24 @@ function CommentCard({
   const dislikeCommentHandler = () => {
     return addCourseCommentDissLikeMutate(id);
   };
-  const [commentId , setCommentId] = useState<any>(null)
+  const [commentId, setCommentId] = useState<any>(null);
   const {
     data: subCommentsData,
     isLoading: isSubCommentsLoading,
     refetch,
   } = useGetCourseSubCommentApi(commentId, query.courseId);
 
-  
   const getReplaysHandler = () => {
-    setCommentId(id)
+    setCommentId(id);
   };
 
   return (
     <Card
       className={`${
         parentId
-          ? `${isReplay ? "bg-white" : "bg-mainBodyBg"} dark:${isReplay ? "bg-dark-lighter" : "bg-dark"}`
+          ? `${isReplay ? "bg-white" : "bg-mainBodyBg"} dark:${
+              isReplay ? "bg-dark-lighter" : "bg-dark"
+            }`
           : "bg-white dark:bg-dark-lighter"
       } rounded-3xl p-4 shadow-none`}
     >
@@ -169,36 +171,14 @@ function CommentCard({
         {title}
         {describe}
       </p>
-      {isUserAuthenticated() && !isReplay ? (
-        <MainButton
-          className="bg-primary my-10 w-[150px] dark:bg-primary-darker text-btnText px-8 py-3 lgb:px-10 lgb:py-6 rounded-3x text-md"
-          content={<p>مشاهده رپلای ها</p>}
-          isLoading={isSubCommentsLoading}
-          onClick={getReplaysHandler}
-        />
-      ) : (
-        !isUserAuthenticated() && 
-          <>
-          <div className="space-y-2">
-          <MainButton
-            className="bg-primary my-10 w-[150px] dark:bg-primary-darker text-btnText px-8 py-4 lgb:px-10 lgb:py-6 rounded-3x text-md"
-            content={<p>ورود به حساب</p>}
-            onClick={() =>
-              router.push({
-                pathname: "/login",
-                query: {
-                  callbackUrl: asPath,
-                },
-              })
-            }
-          />
-          <p className="font-peyda text-secondary">
-            برای رزرو دوره باید وارد حسابت بشی
-          </p>
-        </div>
-          </>
-      
-      )}
+
+      {acceptReplysCount !== 0 && <MainButton
+        className="bg-primary my-10 w-[150px] dark:bg-primary-darker text-btnText px-8 py-3 lgb:px-10 lgb:py-6 rounded-3x text-md"
+        content={<p>مشاهده پاسخ ها</p>}
+        isLoading={isSubCommentsLoading}
+        onClick={getReplaysHandler}
+      />}
+
       <div className="flex flex-col gap-5 text-right mt-4">
         {isSubCommentsLoading
           ? Array.from({ length: 6 }, (_, index) => (
@@ -223,7 +203,7 @@ function CommentCard({
                 )}
               </>
             ))}
-        {!isReplay && subCommentsData?.length === 0 && (
+        {subCommentsData?.length === 0 && (
           <p className="font-peyda text-sm text-secondary">
             تا الان هیچ بازخوردی برای این نظر ثبت نشده است!
           </p>

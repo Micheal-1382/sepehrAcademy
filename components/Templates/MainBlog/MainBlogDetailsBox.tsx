@@ -9,6 +9,7 @@ export default function MainBlogDetailsBox() {
     const { query } = router
 
     const { data, isLoading } = useGetNewsDetailsApi(query?.blogId)
+    console.log(data)
 
     return (
         isLoading || !query?.blogId ? (

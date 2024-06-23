@@ -42,6 +42,7 @@ export const addNewsFavoriteApi = (NewsId: string) => {
 };
 
 export const deleteNewsFavoriteApi = (DeleteEntityId : string) => {
+  console.log(DeleteEntityId)
   return httpService.delete(
     baseUrl +
       `News/DeleteFavoriteNews`,

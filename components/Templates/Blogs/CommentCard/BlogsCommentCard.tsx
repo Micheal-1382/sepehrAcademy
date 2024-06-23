@@ -1,6 +1,6 @@
-import React from "react";
+import React, { useState } from "react";
 import UserCard from "@/components/Modules/UserCard/UserCard";
-import { Card, CardHeader, Divider } from "@nextui-org/react";
+import { Card, CardHeader, Divider, Spinner } from "@nextui-org/react";
 import { CommentCard as CommentCardType } from "@/interfaces/commentCard.interface";
 import Image from "next/image";
 import replyIcon from "@/public/icons/theme/reply.svg";
@@ -12,10 +12,16 @@ import { useRouter } from "next/router";
 import {
   useAddCourseCommentDissLikeApi,
   useAddCourseCommentLikeApi,
+  useGetCourseSubCommentApi,
+  useGetNewsSubCommentApi,
 } from "@/hooks/api/useCoursesApi";
 import convertToPersianDigit from "@/utils/convertToPersianDigit";
 import { newsCommentProps } from "@/interfaces/newsCommnet.interface";
 import { useNewsCommentLikeApi } from "@/hooks/api/useNewsApi";
+import MainButton from "@/components/Modules/Button/MainButton";
+import CourseCommentCard from "@/components/Templates/Courses/CommentCard/CourseCommentCard";
+import BlogCommentCard from "@/components/Templates/Blogs/CommentCard/BlogsCommentCard";
+import SkeletonCommentCard from "@/components/Modules/SkeletonCommentCard/SkeletonCommentCard";
 
 interface detectReplyToWhichUser {
   detectReplyToWhichUser?: ((userName: string | null) => void) | any;
@@ -37,13 +43,16 @@ function CommentCard({
   likeCount,
   dissLikeCount,
   currentUserEmotion,
+  replyCount,
   newsId,
   inserDate,
 }: NewsCommentCard) {
   const router = useRouter();
   const { pathname, query } = router;
+  const isInCoursePage = pathname.includes("courses");
 
-  const { mutate: newsCommentLikeMutate } = useNewsCommentLikeApi(newsId);
+  const { mutate: newsCommentLikeMutate, isPending: commentLikePending } =
+    useNewsCommentLikeApi(newsId);
 
   const commentDate = new Date(inserDate).toLocaleDateString("fa-IR", {
     year: "numeric",
@@ -70,10 +79,22 @@ function CommentCard({
   const dislikeCommentHandler = () => {
     return newsCommentLikeMutate({ CommentId: id, LikeType: false });
   };
+
+  const [commentId, setCommentId] = useState<any>(null);
+  const {
+    data: subCommentsData,
+    isLoading: isSubCommentsLoading,
+    refetch,
+  } = useGetNewsSubCommentApi(commentId);
+
+  const getReplaysHandler = () => {
+    setCommentId(id);
+  };
+
   return (
     <Card
       className={`${
-        parentId
+        parentId === "00000000-0000-0000-0000-000000000000"
           ? "bg-mainBodyBg dark:bg-dark"
           : "bg-white dark:bg-dark-lighter"
       } rounded-3xl p-4 shadow-none`}
@@ -92,6 +113,8 @@ function CommentCard({
           <button className="flex flex-col items-center gap-1">
             {!currentUserIsDissLike === false ? (
               <Image src={solidDislikeIcon} alt="" className="cursor-pointer" />
+            ) : commentLikePending ? (
+              <Spinner size="sm" />
             ) : (
               <Image
                 src={outlineDislikeIcon}
@@ -107,6 +130,8 @@ function CommentCard({
           <button className="flex flex-col items-center gap-1">
             {currentUserIsLike === true ? (
               <Image src={solidLikeIcon} alt="" className="cursor-pointer" />
+            ) : commentLikePending ? (
+              <Spinner size="sm" />
             ) : (
               <Image
                 src={outlineLikeIcon}
@@ -137,11 +162,45 @@ function CommentCard({
         {title}
         {describe}
       </p>
-      {/* <div className="flex flex-col gap-y-4 mt-6">
-        {replies.map((reply, index) => (
-          <CommentCard {...reply} key={index} />
-        ))}
-      </div> */}
+      {replyCount !== 0 && (
+        <MainButton
+          className="bg-transparent w-28 text-primary dark:text-primary-lighter !font-kalamehBlack my-5"
+          content={<p className="text-md font-peyda font-bold">مشاهده پاسخ ها</p>}
+          isLoading={isSubCommentsLoading}
+          onClick={getReplaysHandler}
+        />
+      )}
+
+      <div className="flex flex-col gap-5 text-right mt-4">
+        {isSubCommentsLoading
+          ? Array.from({ length: 6 }, (_, index) => (
+              <SkeletonCommentCard key={index} />
+            ))
+          : subCommentsData?.map((comment: any) => (
+              <>
+                {isInCoursePage ? (
+                  <CourseCommentCard
+                    isReplay={true}
+                    refetch={refetch}
+                    {...comment}
+                    key={comment?.id}
+                    detectReplyToWhichUser={detectReplyToWhichUser}
+                  />
+                ) : (
+                  <BlogCommentCard
+                    {...comment}
+                    key={comment?.id}
+                    detectReplyToWhichUser={detectReplyToWhichUser}
+                  />
+                )}
+              </>
+            ))}
+        {subCommentsData?.length === 0 && (
+          <p className="font-peyda text-sm text-secondary">
+            تا الان هیچ بازخوردی برای این نظر ثبت نشده است!
+          </p>
+        )}
+      </div>
     </Card>
   );
 }
