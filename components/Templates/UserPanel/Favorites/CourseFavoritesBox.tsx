@@ -9,7 +9,7 @@ export default function CourseFavoritesBox() {
 
     return (
         <>
-            <div className='grid grid-cols-3 gap-4'>
+            <div className='grid grid-cols-1 sm:grid-cols-2 lgb:grid-cols-3 gap-4'>
                 {isLoading ? Array.from({ length: 4 }, (_, index) => (
                     <SkeletonCourseCard key={index} />
                 )) : data?.favoriteCourseDto.map((course: FavoriteCourse, index: number) => (
