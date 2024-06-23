@@ -1,6 +1,6 @@
 import PrimaryInput from "@/components/Modules/Input/PrimaryInput";
 import Image from "next/image";
-import React from "react";
+import React, { useEffect } from "react";
 import searchIcon from "@/public/icons/filter/search.svg";
 import { Divider } from "@nextui-org/react";
 import Link from "next/link";
@@ -16,16 +16,24 @@ export default function HorizontalFilterBox({
   sortingColArray,
   sortTypeArray
 }: horizontalFilter) {
-  const { register, handleSubmit } = useForm<searchCourse>();
+  const { register, reset, handleSubmit } = useForm<searchCourse>();
 
   const router = useRouter();
 
   const { pathname, query } = router;
 
+  useEffect(() => {
+    if (query.Query) {
+      reset({
+        Query: query.Query
+      })
+    }
+  }, [query, reset])
+
   const submitFormHandler: SubmitHandler<searchCourse> = (data) => {
     let newQuery = { ...query }
 
-    if (data.Query.trim()) {
+    if (data.Query) {
       newQuery = {
         ...query,
         Query: data.Query,
@@ -40,7 +48,6 @@ export default function HorizontalFilterBox({
       query: newQuery
     });
   };
-
   return (
     <div className="bg-white dark:bg-dark-lighter flex items-center gap-2 flex-row rounded-xl p-2">
       <form
@@ -75,7 +82,7 @@ export default function HorizontalFilterBox({
           {sortingColArray.map((item, index) => (
             <li
               key={index}
-              className={`flex items-center justify-center flex-col xs:gap-1 ${query.SortType === item.query
+              className={`flex items-center justify-center flex-col xs:gap-1 ${query.SortingCol === item.query
                 ? "text-primary dark:text-primary-lighter"
                 : "text-gray-lighter"
                 }`}

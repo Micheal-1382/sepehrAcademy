@@ -19,9 +19,9 @@ export default function CoursesBox() {
         <div className="grid grid-cols-1 sm:grid-cols-2 lgb:grid-cols-3 gap-4 lg:gap-6 w-full">
           {isLoading ? Array.from({ length: 9 }, (_, index) => (
             <SkeletonCourseCard key={index} />
-          )) : data?.courseFilterDtos.map((item: Course, index: number) => (
+          )) : data?.courseFilterDtos.length > 0 ? data?.courseFilterDtos.map((item: Course, index: number) => (
             <CourseCard {...item} key={index} />
-          ))}
+          )) : <h2 className="font-peyda text-2xl text-secondary">هیچ دوره ای یافت نشد</h2>}
         </div>
       </div>
       <div className="pt-6">

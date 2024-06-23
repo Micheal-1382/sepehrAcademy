@@ -34,10 +34,32 @@ export default function CourseVerticalFilterBox() {
 
   const { data: teachersData, isLoading: teachersIsLoading } = useGetTeachersApi()
 
+  const clearAllFiltersHanlder = () => {
+    router.push({
+      pathname
+    })
+  }
   const submitFormHandler: SubmitHandler<courseVerticalFilterProps> = (data) => {
+    const TechCount = data.ListTech ? data.ListTech.length : 0
+
+    if (data.ListTech) {
+      data.ListTech = data.ListTech?.join(",") || "";
+    }
+    if (data.courseLevelId) {
+      data.ListTech = data.courseLevelId?.join(",") || "";
+    }
+
+    if (data.CourseTypeId) {
+      data.ListTech = data.CourseTypeId?.join(",") || "";
+    }
+    if (data.TeacherId) {
+      data.TeacherId = data.TeacherId?.join(",") || "";
+    }
+
     const newQuery = {
       ...query,
-      ...data
+      ...data,
+      TechCount
     }
 
     router.push({
@@ -53,6 +75,7 @@ export default function CourseVerticalFilterBox() {
           فیلتر ها
         </h2>
         <form onSubmit={handleSubmit(submitFormHandler)} className="space-y-5">
+          <MainButton content="پاک کردن فیلتر" className="bg-secondary dark:bg-secondary text-btnText w-full font-peyda" onClick={clearAllFiltersHanlder} />
           <MainButton content="جستجو" className="bg-primary dark:bg-primary-darker text-btnText w-full font-peyda" type="submit" />
           <Card
             className="shadow-none p-3 bg-mainBodyBg dark:bg-dark flex flex-row items-center justify-between gap-1"
