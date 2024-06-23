@@ -13,6 +13,7 @@ interface Course {
   likeCount?: number;
   isCourseReseve?: boolean;
   userFavorite?: boolean;
+  isUserFavorite?: boolean;
   lastUpdate: string;
   levelName?: string;
   statusName?: string;

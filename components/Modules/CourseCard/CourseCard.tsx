@@ -23,14 +23,17 @@ function CourseCard({
   lastUpdate,
   courseId,
   userFavoriteId,
-  userFavorite
+  userFavorite,
+  isUserFavorite
 }: Course) {
   const router = useRouter();
-
+  const { } = router
 
   const { mutate: addCourseFavoriteMutate, isPending: addCourseFavoriteIsPending } = useAddCourseFavoriteApi()
 
   const { mutate: deleteCourseFavoriteMutate, isPending: deleteCourseFavoriteIsPending } = useDeleteCourseFavoriteApi()
+
+  const isUserFavorites = router.pathname.includes("courses") ? userFavorite : isUserFavorite
 
   const likeCommentHandler = (event: any) => {
     event.stopPropagation()
@@ -51,7 +54,7 @@ function CourseCard({
         <div className="w-full flex flex-col gap-5">
           <div className="rounded-3xl w-[85%] mx-auto -mt-20 h-[160px] relative">
             <div className="p-3 absolute top-0 left-0">
-              {!userFavorite ? (
+              {!isUserFavorites ? (
                 addCourseFavoriteIsPending ? <Spinner size="sm" /> : <MainTooltip content="افزودن به علاقه مندی"><Image
                   src={heart}
                   alt=""
