@@ -33,7 +33,7 @@ function CourseCard({
 
   const { mutate: deleteCourseFavoriteMutate, isPending: deleteCourseFavoriteIsPending } = useDeleteCourseFavoriteApi()
 
-  const isUserFavorites = router.pathname.includes("courses") ? userFavorite : isUserFavorite
+  const isUserFavorites = router.pathname.includes("courses") || router.pathname.includes("teachers") ? userFavorite : isUserFavorite
 
   const likeCommentHandler = (event: any) => {
     event.stopPropagation()
