@@ -13,6 +13,7 @@ interface newsCommentProps {
   parentId: string;
   pictureAddress: string;
   title: string;
+  replyCount: number;
 }
 
 export type { newsCommentProps };

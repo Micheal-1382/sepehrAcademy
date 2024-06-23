@@ -18,6 +18,7 @@ import {
   addCourseDissLikeApi,
   getSubCourseCommentApi,
   addCourseStarsApi,
+  getSubNewsCommentApi,
 } from "@/services/api/coursesApi";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { Dispatch, SetStateAction } from "react";
@@ -116,7 +117,7 @@ export const useAddCourseCommentLikeApi = (courseId: string) => {
     onSuccess: () => {
       toast.success("کامنتی که لایک کردی با موفقیت انجام شد");
       queryClient.invalidateQueries({
-        queryKey: ["coursesComments", courseId],
+        queryKey: ["coursesComments", "coursesTop" , courseId],
       });
     },
   });
@@ -131,7 +132,7 @@ export const useAddCourseCommentDissLikeApi = (courseId: string) => {
     onSuccess: () => {
       toast.success("کامنتی که دیسلایک کردی با موفقیت انجام شد");
       queryClient.invalidateQueries({
-        queryKey: ["coursesComments", courseId],
+        queryKey: ["coursesComments", "coursesTop" , courseId],
       });
     },
   });
@@ -214,6 +215,16 @@ export const useGetCourseSubCommentApi = (
   return useQuery({
     queryKey: ["CourseSubComments", CommentId , CourseId],
     queryFn: () => getSubCourseCommentApi(CommentId , CourseId).then((data) => data.data),
+    enabled: !!CommentId,
+  });
+};
+
+export const useGetNewsSubCommentApi = (
+  CommentId: string | string[] | undefined
+) => {
+  return useQuery({
+    queryKey: ["CourseSubComments", CommentId],
+    queryFn: () => getSubNewsCommentApi(CommentId).then((data) => data.data),
     enabled: !!CommentId,
   });
 };
