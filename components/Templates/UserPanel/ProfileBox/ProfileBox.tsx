@@ -32,6 +32,7 @@ export default function ProfileBox({ userImage, isLoading }: { userImage: any, i
       setPreview(userImage.puctureAddress)
     }
   }, [userImage])
+
   return (
     <>
       {isLoading ? <Skeleton className="rounded-full w-[150px] h-[150px]" /> : <Image
@@ -53,7 +54,7 @@ export default function ProfileBox({ userImage, isLoading }: { userImage: any, i
             id="fileInput"
             type="file"
             name="image"
-            accept="image/*"
+            accept="image/png, image/jpeg, image/jpg"
             onChange={(event) => changeImageHandler(event, onChange)}
             className="hidden"
           />

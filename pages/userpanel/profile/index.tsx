@@ -8,7 +8,6 @@ import ChangePasswordBox from "@/components/Templates/UserPanel/PasswordBox/Pass
 
 export default function Index() {
   const { data, isLoading } = useGetProfileInfoApi();
-
   return (
     <div className="flex gap-8">
       <div className="flex flex-col bg-white dark:bg-dark-lighter w-[60%] rounded-3xl overflow-hidden p-5">

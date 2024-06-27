@@ -35,7 +35,6 @@ export const useAddProfileImageApi = () => {
     mutationFn: (payload: { formFile: File }) => addProfileImageApi(payload),
     onSuccess: () => {
       toast.success("عکس پروفایل شما با موفقیت بروزرسانی شد");
-      queryClient.invalidateQueries({ queryKey: ["profileInfo"] });
     },
   });
 };
@@ -44,8 +43,11 @@ export const useDeleteProfileImageApi = () => {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: (DeleteEntityId: string) =>
-      deleteProfileImageApi(DeleteEntityId),
+    mutationFn: (DeleteEntityId: string) => {
+      console.log(DeleteEntityId);
+
+      return deleteProfileImageApi(DeleteEntityId);
+    },
     onSuccess: () => {
       toast.success("عکس پروفایل شما با موفقیت حذف شد");
       queryClient.invalidateQueries({

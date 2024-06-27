@@ -81,7 +81,7 @@ function Hero() {
           />
         </div>
       </div>
-      <div className="flex gap-28 justify-center mt-40">
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-[1px] mt-40">
         <div className="flex items-center flex-col gap-5 text-primary dark:text-primary-lighter">
           <Image alt="" className="w-20" src={teacher} />
           <p>تعداد اساتید</p>

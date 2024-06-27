@@ -7,7 +7,6 @@ import SkeletonCommentCard from "@/components/Modules/SkeletonCommentCard/Skelet
 import { useRouter } from "next/router";
 import { isUserAuthenticated } from "@/utils/isUserAuthenticated";
 import MainButton from "@/components/Modules/Button/MainButton";
-import { useParams } from "next/navigation";
 
 export default function CommentsBox({
   data,

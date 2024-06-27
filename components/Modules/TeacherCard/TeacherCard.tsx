@@ -6,7 +6,7 @@ import { Card, CardBody, Chip, Divider } from "@nextui-org/react";
 import Image from "next/image";
 import Link from "next/link";
 import { validateImageAddress } from "@/utils/validateImageAdderss";
-import fallbackImage from "@/public/pictures/teachers/arian.webp"
+import fallbackImage from "@/public/pictures/defaultUser2.jpg"
 import convertToPersianDigit from "@/utils/convertToPersianDigit";
 
 export default function TeacherCard({

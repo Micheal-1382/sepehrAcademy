@@ -6,6 +6,7 @@ import {
   Popover,
   PopoverContent,
   PopoverTrigger,
+  Skeleton,
 } from "@nextui-org/react";
 import Image from "next/image";
 import React from "react";
@@ -15,9 +16,12 @@ import { useRouter } from "next/router";
 import UserCard from "../UserCard/UserCard";
 import MainButton from "../Button/MainButton";
 import { revokeToken } from "@/utils/revokeToken";
+import { useGetProfileInfoApi } from "@/hooks/api/usePanelApi";
 
 export default function AccountPopover() {
   const router = useRouter();
+
+  const { data, isLoading } = useGetProfileInfoApi()
 
   const logoutUserHandler = () => {
     revokeToken()
@@ -38,7 +42,7 @@ export default function AccountPopover() {
       <PopoverContent className="w-[250px] bg-white dark:bg-dark-lighter sm:w-[340px] items-start rounded-tl-none p-6">
         <>
           <UserCard
-            title="محمد آقایی"
+            title={isLoading ? <Skeleton className="w-[50px] h-[15px] rounded-md" /> : data?.fName + data?.lName}
             description="موجودی: ۰تومان"
             image={""}
             size={50}

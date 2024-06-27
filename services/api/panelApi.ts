@@ -23,7 +23,7 @@ export const addProfileImageApi = (payload: { formFile: File }) => {
 };
 
 export const deleteProfileImageApi = (DeleteEntityId: string) => {
-  return httpService.delete(baseUrl + `SharePanel/DeleteEntityId`, {
+  return httpService.delete(baseUrl + `SharePanel/DeleteProfileImage`, {
     data: {
       DeleteEntityId,
     },
